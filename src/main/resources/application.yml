@@ -1,0 +1,16 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          withings:
+            client-id: 7222e508cf7ba1dac92251e28a177557d61fd522ac51df98bf85699c6927dfc6
+            client-secret: f15e7bbf1227ebe235ccc12e6b967f2611787f41c5293cdc61401eebef5b69ce
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/login/oauth2/code/withings
+            scope:
+              - user.metrics
+        provider:
+          withings:
+            authorization-uri: https://account.withings.com/oauth2_user/authorize2
+            token-uri: https://wbsapi.withings.net/v2/oauth2
