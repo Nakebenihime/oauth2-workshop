@@ -1,16 +1,31 @@
+reddit:
+  user-agent: springboot:org.oauth2workshop:1.0.0 (by /u/Interesting_Ad_1019)
 spring:
   security:
     oauth2:
       client:
         registration:
-          withings:
-            client-id: 7222e508cf7ba1dac92251e28a177557d61fd522ac51df98bf85699c6927dfc6
-            client-secret: f15e7bbf1227ebe235ccc12e6b967f2611787f41c5293cdc61401eebef5b69ce
+          reddit:
+            client-id:
+            client-secret:
             authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:8080/login/oauth2/code/withings
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
             scope:
-              - user.metrics
+              - identity
+              - read
+              - history
         provider:
-          withings:
-            authorization-uri: https://account.withings.com/oauth2_user/authorize2
-            token-uri: https://wbsapi.withings.net/v2/oauth2
+          reddit:
+            authorization-uri: https://www.reddit.com/api/v1/authorize
+            token-uri: https://www.reddit.com/api/v1/access_token
+            user-info-uri: https://oauth.reddit.com/api/v1/me
+            user-name-attribute: 'name'
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          reactive:
+            function:
+              client:
+                ExchangeFunctions: debug
