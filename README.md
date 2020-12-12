@@ -48,7 +48,9 @@ The authorization code grant type flow has the following steps:
    User-Agent = "<platform>:<appid>:<version>, (by /u/username)'
    }
     ```
-   
+
+![OAuth2 authentication workflow](../assets/diagrams/oauth2_authorization_code_flow.png?raw=true)
+
 ## PROJECT STRUCTURE
 ```
 *---java
