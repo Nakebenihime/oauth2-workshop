@@ -12,12 +12,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Configuration
-public class CustomAuthorizationRequestResolver implements OAuth2AuthorizationRequestResolver {
+public class CustomAuthorizationRequestResolverConfiguration implements OAuth2AuthorizationRequestResolver {
 
     private final OAuth2AuthorizationRequestResolver defaultAuthorizationRequestResolver;
 
-    public CustomAuthorizationRequestResolver(ClientRegistrationRepository clientRegistrationRepository) {
-
+    public CustomAuthorizationRequestResolverConfiguration(ClientRegistrationRepository clientRegistrationRepository) {
         this.defaultAuthorizationRequestResolver =
                 new DefaultOAuth2AuthorizationRequestResolver(
                         clientRegistrationRepository, OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI);
@@ -25,31 +24,26 @@ public class CustomAuthorizationRequestResolver implements OAuth2AuthorizationRe
 
     @Override
     public OAuth2AuthorizationRequest resolve(HttpServletRequest httpServletRequest) {
-        OAuth2AuthorizationRequest authorizationRequest =
-                this.defaultAuthorizationRequestResolver.resolve(httpServletRequest);
+        OAuth2AuthorizationRequest authorizationRequest = this.defaultAuthorizationRequestResolver.resolve(httpServletRequest);
 
         return authorizationRequest != null ?
-                customAuthorizationRequest(authorizationRequest) :
+                withingsAuthorizationRequest(authorizationRequest) :
                 null;
     }
 
     @Override
     public OAuth2AuthorizationRequest resolve(HttpServletRequest httpServletRequest, String clientRegistrationId) {
-        OAuth2AuthorizationRequest authorizationRequest =
-                this.defaultAuthorizationRequestResolver.resolve(
-                        httpServletRequest, clientRegistrationId);
+        OAuth2AuthorizationRequest authorizationRequest = this.defaultAuthorizationRequestResolver.resolve(httpServletRequest, clientRegistrationId);
 
         return authorizationRequest != null ?
-                customAuthorizationRequest(authorizationRequest) :
+                withingsAuthorizationRequest(authorizationRequest) :
                 null;
     }
 
-    private OAuth2AuthorizationRequest customAuthorizationRequest(
-            OAuth2AuthorizationRequest authorizationRequest) {
-
+    private OAuth2AuthorizationRequest withingsAuthorizationRequest(OAuth2AuthorizationRequest authorizationRequest) {
         Map<String, Object> additionalParameters =
                 new LinkedHashMap<>(authorizationRequest.getAdditionalParameters());
-        additionalParameters.put("mode", "demo");
+        additionalParameters.put("duration", "permanent");
 
         return OAuth2AuthorizationRequest.from(authorizationRequest)
                 .additionalParameters(additionalParameters)

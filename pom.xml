@@ -11,11 +11,15 @@
     <groupId>org</groupId>
     <artifactId>oauth2workshop</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>oauth2workshop</name>
+    <name>oauth2-workshop</name>
     <description>Oauth2 spring security 5 workshop</description>
 
     <properties>
         <java.version>11</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -53,9 +57,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-test</artifactId>
-            <scope>test</scope>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.75</version>
         </dependency>
     </dependencies>
 

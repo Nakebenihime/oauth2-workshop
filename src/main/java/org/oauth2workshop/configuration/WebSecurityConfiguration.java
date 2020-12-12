@@ -8,21 +8,27 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 
 @EnableWebSecurity
 class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    private final CustomAuth2AccessTokenResponseClientConfiguration accessTokenResponseClient;
+
     private final ClientRegistrationRepository clientRegistrationRepository;
 
     @Autowired
-    public WebSecurityConfiguration(ClientRegistrationRepository clientRegistrationRepository) {
+    public WebSecurityConfiguration(CustomAuth2AccessTokenResponseClientConfiguration accessTokenResponseClient, ClientRegistrationRepository clientRegistrationRepository) {
+        this.accessTokenResponseClient = accessTokenResponseClient;
         this.clientRegistrationRepository = clientRegistrationRepository;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/login", "/login/oauth2/code/*").permitAll()
+        http
+                .authorizeRequests().antMatchers("/login", "/login/oauth2/code/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
-                .authorizationEndpoint()
-                .authorizationRequestResolver(new CustomAuthorizationRequestResolver(
-                        this.clientRegistrationRepository));
+                .tokenEndpoint().accessTokenResponseClient(this.accessTokenResponseClient)
+                .and()
+                .authorizationEndpoint().authorizationRequestResolver(
+                new CustomAuthorizationRequestResolverConfiguration(this.clientRegistrationRepository));
     }
 }
